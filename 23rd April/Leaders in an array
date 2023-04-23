@@ -1,0 +1,22 @@
+// set max as last elem of that arr & store that last elem in stack -- traverse from nums.length-1 to start & check any elem is bigger than max or not -- > 
+// if any bigger found, store it in a stack & update max --> pop elem from stack & add in the list
+class Solution{
+    //Function to find the leaders in the array.
+    static ArrayList<Integer> leaders(int arr[], int n){
+        // Your code here
+        ArrayList<Integer> list = new ArrayList<>();
+        Stack<Integer> stack = new Stack<>();
+        int max = arr[n-1];
+        stack.push(max);
+        for(int i = n-2;i>=0;i--){
+            if(arr[i]>=max){
+                stack.push(arr[i]);
+                max=arr[i];
+            }
+        }
+        while(!stack.isEmpty()){
+            list.add(stack.pop());
+        }
+        return list;
+    }
+}
