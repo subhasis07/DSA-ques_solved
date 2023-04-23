@@ -1,0 +1,36 @@
+//recursion
+// say for n=4 & k=17 --> 
+so for 1,2,3,4 -- fix 1 val & for rest 3! combination will happen --per part 6 combination -- total 6*4 =24
+0 based-- so k =17-1=16th
+to check wher lies, k/per part combination == 16/6 =2 
+so, 2nd ine that is 3 will be the 1st val of ans; & k changes to k%6=4th
+rest 1,2,4
+do same fix & rest combination to check 4th one
+//details description in my copy
+//link of solution: https://www.youtube.com/watch?v=wT7gcXLYoao&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=21
+
+class Solution {
+    public String getPermutation(int n, int k) {
+        List<Integer> list = new ArrayList<>();
+        int fact=1; // for 4no take 3!combination,taking 1st val const -check where the k lies
+        for(int i=1;i<n;i++){
+            fact*=i;
+            list.add(i);
+        }
+        list.add(n);//in list add all val from 1 to n
+        
+        String ans = ""; //result
+        k=k-1;
+        while(true){
+            ans=ans+list.get(k/fact); // finding the val & add in ans
+            list.remove(k/fact);
+            if(list.size()==0){
+                break;
+            }
+            k=k%fact;
+            fact= fact/list.size();
+        }
+        
+        return ans;
+    }
+}
