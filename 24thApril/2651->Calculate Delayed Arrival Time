@@ -1,0 +1,12 @@
+Link: https://leetcode.com/problems/calculate-delayed-arrival-time/
+class Solution {
+    public int findDelayedArrivalTime(int arrivalTime, int delayedTime) {
+        int currHour= arrivalTime+delayedTime;
+        if(currHour<24){
+            return currHour;
+        }else{
+            return currHour%24;
+        }
+    }
+}
+
