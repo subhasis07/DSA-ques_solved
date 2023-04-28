@@ -1,0 +1,28 @@
+class Solution {
+    public int sumSubarrayMins(int[] arr) {
+        final int modulo = 1000000007;
+        int[] left = new int[arr.length];
+        int[] right = new int[arr.length];
+        right[arr.length - 1] = arr.length - 1;
+
+        for (int i = 1; i < arr.length; i++){
+            int idx = i - 1;
+            while (idx >= 0 && arr[idx] > arr[i]) idx = left[idx] - 1;
+            left[i] = idx + 1;
+        }
+
+        right[arr.length - 1] = arr.length - 1;
+        for (int i = arr.length - 2; i >= 0; i--){
+            int idx = i + 1;
+            while (idx < arr.length && arr[i] <= arr[idx]) idx = right[idx] + 1;
+            right[i] = idx - 1;
+        }
+
+        //result
+        long res = 0;
+        for (int i = 0; i < arr.length; i++)
+            res = res + 1l *  arr[i] * (i - left[i] + 1)  * (right[i] - i + 1);
+
+        return (int) (res % modulo);
+    }
+}
