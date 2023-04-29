@@ -1,0 +1,69 @@
+https://leetcode.com/problems/min-stack/
+
+=============Method:1 --Using Two stack
+class MinStack {
+     Stack<Integer> stack;
+     Stack<Integer> minStack;
+
+     public MinStack() {
+         stack = new Stack<>();
+         minStack = new Stack<>();
+     }
+    
+     public void push(int val) {
+         stack.push(val);
+         if(minStack.isEmpty() || minStack.peek()>=val){
+             minStack.push(val);
+         }
+     }
+    
+     public void pop() {
+         if(stack.peek().equals(minStack.peek())){
+             minStack.pop();
+         }
+         stack.pop();
+     }
+    
+     public int top() {
+         return stack.peek();
+     }
+    
+     public int getMin() {
+         return minStack.peek();
+     }
+}
+
+===============Method:2 --Using one stack
+
+
+class MinStack {
+    Stack<Integer> stack;
+    int min=Integer.MAX_VALUE;
+    
+    public MinStack() {
+        stack = new Stack<>();
+    }
+    
+    public void push(int val) {
+        min = Math.min(min,val);
+        stack.push(val);
+        stack.push(min);
+    }
+    
+    public void pop() {
+        stack.pop();
+        stack.pop();
+        min = stack.isEmpty() ? Integer.MAX_VALUE : stack.peek();
+    }
+    
+    public int top() {
+        int temp =stack.pop();
+        int res= stack.peek();
+        stack.push(temp);
+        return res;
+    }
+    
+    public int getMin() {
+        return stack.peek();
+    }
+}
