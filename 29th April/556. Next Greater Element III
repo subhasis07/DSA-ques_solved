@@ -1,0 +1,62 @@
+https://leetcode.com/problems/next-greater-element-iii/
+
+class Solution {
+    public int nextGreaterElement(int n) {
+        /*
+        (n+""): This part converts the integer n to a string by concatenating it with an empty string (""). This is a common technique used to convert a value of any type to a string in Java.
+
+.toCharArray(): This method is called on the resulting string from the previous step. It converts the string into a character array, where each character of the string becomes an element in the array.
+
+char str[] = ...: This declares and initializes a character array variable named str with the result of the conversion from the previous step. The [] notation indicates that str is an array.
+        */
+        char str[] = (n+"").toCharArray();
+        
+        int deflectionPoint=str.length-1;
+        while(deflectionPoint>0){
+            if(str[deflectionPoint]> str[deflectionPoint-1]){
+                break;
+            }
+            deflectionPoint--;
+        }
+        
+        int firstSwappingPoint= deflectionPoint-1;
+        
+        if(deflectionPoint==0){
+            return -1;
+        }
+        
+        int secondSwappingPoint=str.length-1;
+        while(secondSwappingPoint>=firstSwappingPoint){
+            if(str[secondSwappingPoint]>str[firstSwappingPoint]){
+                break;
+            }
+            secondSwappingPoint--;
+        }
+        
+        //swap
+        char temp= str[secondSwappingPoint];
+        str[secondSwappingPoint]=str[firstSwappingPoint];
+        str[firstSwappingPoint]=temp;
+        
+        reverse(str,deflectionPoint);
+        
+        //check the out of bound test cases
+        Long no = Long.parseLong(new String(str));
+        if(no<=Integer.MAX_VALUE){
+            return no.intValue();
+        } else{
+            return -1;
+        } 
+    }
+    
+    public void reverse(char str[], int start){
+        int end = str.length-1;
+        while(start<=end){
+            char temp= str[end];
+            str[end]=str[start];
+            str[start]=temp;
+            start++;
+            end--;
+        }
+    }
+}
