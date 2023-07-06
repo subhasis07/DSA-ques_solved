@@ -1,0 +1,18 @@
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode curr=head;
+        ListNode prevHead=null;
+        ListNode nextHead;
+        
+        while(curr!=null){
+            nextHead=curr.next;
+            curr.next=prevHead;
+            prevHead=curr;
+            curr=nextHead;
+        }
+        return prevHead;
+    }
+}
