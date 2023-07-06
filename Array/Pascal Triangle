@@ -1,0 +1,46 @@
+3 type os problem
+
+// type-1: getting a particular val based on row & col
+formula: (r-1)C(c-1);
+
+int nCr(int n, int r){
+  int res=1;
+  for(int i=0;i<r;i++){
+    res=res*(n-i);
+    res=res/(n-1);
+  }
+  return res;
+}
+
+
+//type-2: Print a row:
+int ans=1;
+System.out.println(1);
+for(int i=1;i<n;i++){
+  ans=ans*(n-i);
+  ans=ans/i;
+  System.out.println(ans);
+}
+
+
+//print full triangle
+
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> list = new ArrayList<>();
+        
+        for(int i=1;i<=numRows;i++){
+            List<Integer> currList= new ArrayList<>();
+            
+            for(int j=0;j<i;j++){
+                if(j==0 || j==i-1){
+                    currList.add(1);
+                }else{
+                    currList.add(list.get(i-2).get(j-1)+ list.get(i-2).get(j));
+                }  
+            }   
+            list.add(currList);
+        }  
+        return list;
+    }
+}
