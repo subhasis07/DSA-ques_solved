@@ -1,0 +1,42 @@
+class Solution 
+{
+    //Function to find minimum number of pages.
+    public static int findPages(int[]A,int N,int M)
+    {
+        //Your code here
+        if(A.length<M){
+            return -1;
+        }
+        int low=A[0];
+        int high=A[0];
+        for(int i=1;i<A.length;i++){
+            low= Math.max(low,A[i]);
+            high=high+A[i];
+        }
+        
+        while(low<=high){
+            int mid= low+(high-low)/2;
+            int count=helper(A,mid);
+            if(count>M){
+                low=mid+1;
+            }else{
+                high=mid-1;
+            }
+        }
+        return low;
+    }
+    
+    public static int helper(int A[], int mid){
+        int count=1;
+        int currPages=0;
+        for(int i=0;i<A.length;i++){
+            if(currPages+A[i]<=mid){
+                currPages+=A[i];
+            }else{
+                count++;
+                currPages=A[i];
+            }
+        }
+        return count;
+    }
+};
