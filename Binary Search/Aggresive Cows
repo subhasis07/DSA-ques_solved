@@ -1,0 +1,35 @@
+class Solution {
+    public static int solve(int n, int k, int[] stalls) {
+        Arrays.sort(stalls);
+        int low=1;
+        int high= stalls[stalls.length-1]-stalls[0];
+        
+        while(low<=high){
+            int mid= low+(high-low)/2;
+            
+            if(cowPlacing(stalls, k, mid)){
+                low=mid+1;
+            }else{
+                high=mid-1;
+            }
+        }
+        return high;
+    }
+    
+    public static boolean cowPlacing(int []stalls, int k, int mid){
+        int cntCows=1;
+        int last=stalls[0];
+        for(int i=1;i<stalls.length;i++){
+            if(stalls[i]-last>=mid){
+                cntCows+=1;
+                last=stalls[i];
+            }
+        }
+        
+        if(cntCows>=k){
+            return true;
+        }
+        
+        return false;
+    }
+}
