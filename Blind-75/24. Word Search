@@ -1,0 +1,33 @@
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        for(int row=0;row<board.length;row++){
+            for(int col=0;col<board[0].length;col++){
+                if(board[row][col]==word.charAt(0) && helper(board,word,0,row,col)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean helper(char[][] board, String word,int start, int row, int col){
+        if(word.length()<=start){
+            return true;
+        }
+        
+        if(row<0 || row>=board.length || col<0 || col>=board[0].length || board[row][col]!=word.charAt(start)){
+            return false;
+        }
+        
+        char temp =board[row][col];
+        board[row][col]='*';
+        
+        if(helper(board,word,start+1,row+1,col) ||helper(board,word,start+1,row-1,col) || helper(board,word,start+1,row,col+1) || helper(board,word,start+1,row,col-1)){
+            return true;
+        }
+        
+        board[row][col]=temp;
+        
+        return false;
+    }
+}
