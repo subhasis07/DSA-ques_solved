@@ -1,0 +1,19 @@
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> list = new ArrayList<>();
+        combineHelper(list, n,k,new ArrayList<>(), 1);
+        return list;
+    }
+    
+    public void combineHelper(List<List<Integer>> list, int n, int k, List<Integer> subList, int start){
+        if(k==0){
+            list.add(new ArrayList<>(subList));
+            return;
+        }
+        for(int i=start;i<=n;i++){
+            subList.add(i);
+            combineHelper(list,n,k-1,subList,i+1);
+            subList.remove(subList.size()-1);
+        }
+    }
+}
