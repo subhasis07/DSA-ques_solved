@@ -1,0 +1,23 @@
+class Solution {
+    final char[][] lettersInMob = {{},{},{'a','b','c'},{'d','e','f'},{'g','h','i'},{'j','k','l'},{'m','n','o'},{'p','q','r','s'},{'t','u','v'},{'w','x','y','z'}};
+    public List<String> letterCombinations(String digits) {
+        List<String> res= new ArrayList<>();
+        if(digits.length()==0){
+            return res;
+        }
+        
+        dfs(0,digits.length(), new StringBuilder(), digits, res);
+        return res;
+    }
+    public void dfs(int start,int end, StringBuilder sb, String input, List<String> res){
+        
+        if(start==end){
+            res.add(sb.toString());
+        }else{
+            char [] letters = lettersInMob[Character.getNumericValue(input.charAt(start))];
+        
+            for (int i = 0; i < letters.length; i++)
+                dfs(start+1, end, new StringBuilder(sb).append(letters[i]), input, res);
+        }  
+    }
+}
