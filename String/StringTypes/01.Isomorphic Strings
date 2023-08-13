@@ -1,0 +1,47 @@
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+
+        int map1[]= new int[200];
+        int map2[]= new int[200];
+        
+        for(int i=0;i<s.length();i++){
+            
+            if(map1[s.charAt(i)]!=map2[t.charAt(i)]){
+                return false;
+            }
+            map1[s.charAt(i)]=i+1;
+            map2[t.charAt(i)]=i+1;
+        }
+        
+        return true;
+    }
+}
+
+/*
+e and a both start at 0 because they havent been used, but then you change it to 1, so now the value of e and a will be 1. In the next iteration g and d, same thing happens both start with 0 so therefore it goes to the next step i+1 in this case g and d will have the value of 1, last but not least g and d in the end, both already have one so it is true and the for already finished therefore it is true.
+
+more visual egg and add
+i=0
+e=0, a=0 therefore e=1, a=1
+i=1
+g=0,d=0 therfeore g=2, d=2
+i=2
+g=2,d=2 thefore g=3, d=3
+ends->true
+
+another example egg and abc
+i=0
+e=0, a=0 therefore e=1, a=1
+i=1
+g=0,b=0 therfeore g=2, b=2
+i=2
+g-2,c=0 not true therefore returns a false
+
+*note
+-instead of new int[200] you can replace it with 127 it is the max capacity
+
+-you can erase this line: if(s.length()!=t.length()) becuase one of the contraints mentions that the length will always be equal.
+
+-map[s.charAt(i)] is the same as map[98] the 98 would be 'b' because of ascii.
+if you do map[98]=x, x would be the value you would insert in such position in this case i+1 which will be unique to each pair of letters and will allow you to determine wheater or not they are the same, if you havent inserted anything then it will start as 0, that is like the null in int.
+*/
