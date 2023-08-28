@@ -1,0 +1,49 @@
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root==null){
+            return null;
+        }
+        if(root.val==key){
+            return helper(root);
+        }
+        TreeNode dummy=root;
+        while(dummy!=null){
+            if(dummy.val>key){
+                if(dummy.left!=null && dummy.left.val==key){
+                    dummy.left=helper(dummy.left);
+                    break;
+                }else{
+                    dummy=dummy.left;
+                }
+            }else{
+                if(dummy.right!=null && dummy.right.val==key){
+                    dummy.right=helper(dummy.right);
+                    break;
+                }else{
+                    dummy=dummy.right;
+                }
+            }
+        }
+        return root;
+    }
+    
+    private TreeNode helper(TreeNode dummy){
+        if(dummy.left==null){
+            return dummy.right;
+        }else if(dummy.right==null){
+            return dummy.left;
+        }else{
+            TreeNode rightPoint= dummy.right;
+            TreeNode rightPointOfLeftSubTree = findLastRight(dummy.left);
+            rightPointOfLeftSubTree.right=rightPoint;
+            return dummy.left;
+        }
+    }
+    
+    private TreeNode findLastRight(TreeNode dummy){
+        if(dummy.right==null){
+            return dummy;
+        }
+        return findLastRight(dummy.right);
+    }
+}
