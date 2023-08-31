@@ -1,3 +1,5 @@
+//method --1
+
 class Solution {
     public boolean findTarget(TreeNode root, int k) {
         return dfs(root, root,  k);
@@ -13,5 +15,69 @@ class Solution {
         return (root.val == value) && (root != cur) 
             || (root.val < value) && search(root.right, cur, value) 
                 || (root.val > value) && search(root.left, cur, value);
+    }
+}
+
+
+//method--2
+class Solution {
+    public boolean findTarget(TreeNode root, int k) {
+        if(root==null){
+            return false;
+        }
+        
+        //left pointer-- next elem
+        BSTiterator l= new BSTiterator(root,false);
+        
+        //right pointer -- before elem
+        BSTiterator r= new BSTiterator(root,true);
+        
+        int i=l.next();
+        int j = r.next();
+        
+        while(i<j){
+            if(i+j==k){
+                return true;
+            }else if(i+j<k){
+                i=l.next();
+            }else{
+                j=r.next();
+            }
+        }
+        return false;
+    }
+}
+
+class BSTiterator{
+    Stack<TreeNode> stack;
+    boolean reverse=true;  //checking for before or next... reverse==true --> before else, next
+    
+    public BSTiterator(TreeNode node, boolean isReversed){
+        reverse=isReversed;
+        stack = new Stack<>();
+        pushAll(node);
+    }
+    public boolean hasNext(){
+        return !stack.isEmpty();
+    }
+    public int next(){
+        TreeNode curr= stack.pop();
+        if(reverse==true){   
+            pushAll(curr.left);//for taking before elem, after popping, check any left elem & then push all                                                 curr.left
+        }else{
+            pushAll(curr.right);//for taking next elem, after popping, check any rught elem & then push all                                                 curr.right
+        }
+        return curr.val;
+    }
+    public void pushAll(TreeNode node){
+        while(node!=null){
+            stack.push(node);
+            
+            if(reverse==true){  
+                node=node.right; // to found before elem, push node.right
+            }else{
+                node=node.left;  // to found next elem, push node.left
+            }
+        }
     }
 }
