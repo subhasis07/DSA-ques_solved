@@ -1,0 +1,38 @@
+class Solution{
+    
+    static class Info{
+        int min;
+        int max;
+        int size;
+        
+        Info(int min,int max, int size){
+            this.min=min;
+            this.max=max;
+            this.size=size;
+        }
+    }
+    
+    static Info solve(Node root){
+        //Base case
+        //an empty tree is an BST of size 0
+        if(root==null){
+            return new Info(Integer.MAX_VALUE,Integer.MIN_VALUE,0);
+        }
+        
+        //get values from left,right subtree of current tree
+        Info left=solve(root.left);
+        Info right=solve(root.right);
+      
+        if(root.data>left.max && root.data<right.min){//valid BST
+           return new Info(Math.min(root.data,left.min),Math.max(root.data,right.max),left.size+right.size+1);
+        }
+        
+    //otherwise return [-infi,infi] so parents node cannot be valid BST
+    return new Info(Integer.MIN_VALUE,Integer.MAX_VALUE,Math.max(left.size,right.size));
+    }
+    
+    static int largestBst(Node root) {
+        return solve(root).size;
+    }
+    
+}
