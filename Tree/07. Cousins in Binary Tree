@@ -1,0 +1,58 @@
+class Solution {
+    public boolean isCousins(TreeNode root, int x, int y) {
+        
+        //If any of x or y is at root, it means they can't be at same depth. Return false.
+        if(root.val==x || root.val==y){
+            return false;
+        }
+        
+        Queue<TreeNode> queue= new LinkedList<>();
+        queue.add(root);
+        
+        int parentX = 0;
+        int parentY = 0;
+        
+        boolean xfound=false;
+        boolean yfound=false;
+        
+        //level-order traversal until x or y is found or queue is empty.
+        while(!queue.isEmpty() && !xfound && !yfound){
+            int size=queue.size();
+            
+            //Traverse that level.
+            while(size-->0){
+                TreeNode curr= queue.poll();
+                
+                //if x or y is found at left/right, save the parent, set the "found" flag to true.
+                //This flag will break the loop if any one (x or y) is found, because, as per condition, both x & y should be at same level!
+                
+                if(curr.left!=null){
+                    queue.add(curr.left);
+                    
+                    if(curr.left.val==x){
+                        parentX=curr.val;
+                        xfound=true;
+                    }
+                    if(curr.left.val==y){
+                        parentY=curr.val;
+                        yfound=true;
+                    }
+                }
+                if(curr.right!=null){
+                    queue.add(curr.right);
+                    
+                    if(curr.right.val==x){
+                        parentX=curr.val;
+                        xfound=true;
+                    }
+                    if(curr.right.val==y){
+                        parentY=curr.val;
+                        yfound=true;
+                    }
+                }
+            }
+        }
+        
+        return xfound && yfound && parentX!=parentY;
+    }
+}
