@@ -1,0 +1,105 @@
+//Method --1
+/*
+class Solution {
+    public Node copyRandomList(Node head) {
+        if (head == null) {
+            return null;
+        }
+        
+        // Initialize a current node pointer to traverse the original list
+        Node curr = head;
+        
+        // Create a mapping between old nodes and their corresponding new nodes
+        Map<Node, Node> oldToNew = new HashMap<>();
+        
+        // Traverse the original list
+        while (curr != null) {
+            // Check if the current node is not already in the mapping
+            if (!oldToNew.containsKey(curr)) {
+                // Create a new node with the same value as the current node
+                oldToNew.put(curr, new Node(curr.val));
+            }
+            // Get the new node corresponding to the current node
+            Node newNode = oldToNew.get(curr);
+
+            // Copy the 'next' pointer
+            if (curr.next == null) {
+                newNode.next = null;
+            } else {
+                // Check if the 'next' node is not already in the mapping
+                if (!oldToNew.containsKey(curr.next)) {
+                    // Create a new node for the 'next' node
+                    oldToNew.put(curr.next, new Node(curr.next.val));
+                }
+                // Update the 'next' pointer of the new node
+                newNode.next = oldToNew.get(curr.next);
+            }
+
+            // Copy the 'random' pointer
+            if (curr.random == null) {
+                newNode.random = null;
+            } else {
+                // Check if the 'random' node is not already in the mapping
+                if (!oldToNew.containsKey(curr.random)) {
+                    // Create a new node for the 'random' node
+                    oldToNew.put(curr.random, new Node(curr.random.val));
+                }
+                // Update the 'random' pointer of the new node
+                newNode.random = oldToNew.get(curr.random);
+            }
+
+            // Move to the next node in the original list
+            curr = curr.next;
+        }
+        
+        // Return the new head, which is the new node corresponding to the original head
+        return oldToNew.get(head);
+    }
+}
+*/
+class Solution {
+    public Node copyRandomList(Node head) {
+        
+        
+        //step-1  --make a copy of each node & link then together side by side in single list
+        Node itr=head;
+        Node front=head;
+        
+        while(itr!=null){
+            front=itr.next;
+            Node copy= new Node(itr.val);
+            itr.next=copy;
+            copy.next=front;
+            
+            itr=front;
+        }
+        
+        //step-2: assign random pointer for te copy node
+        
+        itr=head;
+        while(itr!=null){
+            if(itr.random!=null){
+                itr.next.random=itr.random.next;  //copy node er random akhn point krbe original node r random point ke
+            }
+            itr=itr.next.next; //itr ke 2 to jump korano holo.. jate origina loop e thake!
+        }
+        
+        //step-3: restore the original list & extract the copy list;
+        
+        Node pseduHead=new Node(0);
+        itr=head;
+        Node copy=pseduHead;
+        
+        while(itr!=null){
+            front=itr.next.next;
+            
+            copy.next=itr.next;  //extract the copy list; pseduHead er next ta ke itr r nxt e point
+            copy=copy.next; //copy to next stap
+            
+            itr.next=front;  //extract original list; itr er next akhn point kbe front ke
+            itr=front;
+        }
+        
+        return pseduHead.next;
+    }
+}
