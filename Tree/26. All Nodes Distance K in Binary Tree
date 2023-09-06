@@ -1,0 +1,72 @@
+class Solution {
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        Map<TreeNode, TreeNode> parentTrack = new HashMap<>();
+        markParent(root,parentTrack);
+        Map<TreeNode, Boolean> visited = new HashMap<>();
+        Queue<TreeNode>queue = new LinkedList<>();
+        
+        queue.offer(target);  //Putting the target first in map because we want to traverse the nodes around it.
+        visited.put(target,true);
+        int currLevel=0;  //Indicates the distance from the target node
+        
+        while(!queue.isEmpty()){
+            int size= queue.size();
+            if(currLevel==k){
+                break;
+            }
+            currLevel++;
+            
+            //Traversing a node upto one distance of nodes around it so we only traverse till q.size() before incrementing beacause the q.size() after this traversal will denote the nodes at distance+1 from the target node.
+            for(int i=0;i<size;i++){
+                TreeNode currNode= queue.poll();
+                
+                //We visit the left,right nodes if they are not null and do not have a entry in the visited map yet meaning they have not been visited,we put their value to true after visiting them.
+                
+                //left check
+                if(currNode.left!=null && visited.get(currNode.left)==null){
+                    queue.offer(currNode.left);
+                    visited.put(currNode.left,true);
+                }
+                
+                //right check
+                if(currNode.right!=null && visited.get(currNode.right)==null){
+                    queue.offer(currNode.right);
+                    visited.put(currNode.right,true);
+                }
+                
+                //We first check if the node t has a parent or not,it might be the root node and have no parent node at all so,we check for it using map m to see if it contains a value of parent node for current node and then we check if this node is visited or not,if it does not have a entry in the visited map then it means that it has not been visited yet.
+                //upper check
+                if(parentTrack.get(currNode)!=null && visited.get(parentTrack.get(currNode))==null){
+                    queue.offer(parentTrack.get(currNode));
+                    visited.put(parentTrack.get(currNode),true);
+                }
+            }
+        }
+        
+        List<Integer> res = new LinkedList<>();
+        while(!queue.isEmpty()){
+            TreeNode curr=queue.poll();
+            res.add(curr.val);
+        }
+        return res;
+    }
+    
+     //Function for converting the Tree to Graph using a map where each node is the key and it's parent node is the value.
+    private void markParent(TreeNode root, Map<TreeNode,TreeNode>parentTrack){
+        Queue<TreeNode> queue= new LinkedList<>();
+        queue.offer(root);
+        
+        
+        while(!queue.isEmpty()){
+            TreeNode curr= queue.poll();
+            if(curr.left!=null){
+                parentTrack.put(curr.left,curr);
+                queue.offer(curr.left);
+            }
+            if(curr.right!=null){
+                parentTrack.put(curr.right,curr);
+                queue.offer(curr.right);
+            }
+        }
+    }
+}
