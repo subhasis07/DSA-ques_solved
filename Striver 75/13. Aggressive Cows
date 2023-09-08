@@ -1,0 +1,29 @@
+class Solution {
+    public static int solve(int n, int k, int[] stalls) {
+        Arrays.sort(stalls);
+        int low=1; //initial
+        int high=stalls[stalls.length-1]-stalls[0];  //max distance
+        while(low<=high){
+            int mid=low+(high-low)/2;  
+            if(isPossible(stalls,mid,k)){   //checking if mid distance satisfy the condition or not
+                low=mid+1;
+            }else{
+                high=mid-1;
+            }
+        }
+        return high;
+    }
+    
+    public static boolean isPossible(int[] arr, int mid, int cows){
+        int cntCows=1;
+        int last=arr[0];
+        for(int i=1;i<arr.length;i++){
+            
+            if(arr[i]-last>=mid){
+                cntCows+=1;
+                last=arr[i];
+            }
+        }
+        return cntCows>=cows;
+    }
+}
